@@ -9,23 +9,34 @@ use Hash;
 
 class LoginController extends Controller
 {
-    public function index()
-    {
-        return view('login.index');
-
-    }
+//    public function index()
+//    {
+//        return view('login.index');
+//
+//    }
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
+//        $credentials = $request->validate([
+//            'email' => ['required', 'email'],
+//            'password' => ['required'],
+//        ]);
+//
+//        if (Auth::attempt($credentials))
+//        {
+//            return response()->json([ 'status' => true ,'message' => "Success"]);
+//        }
+//        return response()->json(['status' => false ,'message' => "Fail"]);
 
-        if (Auth::attempt($credentials))
-        {
-            return response()->json([ 'status' => true ,'message' => "Success"]);
+        if (auth()->attempt($request->all())) {
+            return response([
+                'user' => auth()->user(),
+                'access_token' => auth()->user()->createToken('authToken')->accessToken
+            ], Response::HTTP_OK);
         }
-        return response()->json(['status' => false ,'message' => "Fail"]);
+
+        return response([
+            'message' => 'This User does not exist'
+        ], Response::HTTP_UNAUTHORIZED);
     }
 }

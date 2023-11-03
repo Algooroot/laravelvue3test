@@ -24,4 +24,4 @@ Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });
 
-Route::post('/', [LoginController::class, 'index']);
+Route::post('/', [LoginController::class, 'login']);
